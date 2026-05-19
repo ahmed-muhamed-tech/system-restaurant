@@ -1,1 +1,46 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
+
+/* global rules */
+@theme {
+  --font-sans: "Cairo", sans-serif;
+
+  --color-primary: #f5a623;
+  --color-accent: #ff6b35;
+
+  --color-bg: #f5f5f0;
+  --color-card: #ffffff;
+
+  --color-text: #1a1a2e;
+  --color-muted: #6b7280;
+
+  --color-border: #e8e8e0;
+  --color-pill: #f9edd5;
+  --color-promo: #7c3626;
+
+  --color-success: #22c55e;
+  --color-star: #f59e0b;
+
+  /* SHADOWS */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-cta: 0 4px 16px rgba(245, 166, 35, 0.25);
+  --shadow-side: 2px 0 8px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  /* BORDER RADIUS */
+  --radius-page: 20px;
+  --radius-card: 16px;
+  --radius-cta: 14px;
+  --radius-pill: 12px;
+  --radius-input: 10px;
+  --radius-full: 9999px;
+}
+
+.container {
+  margin-inline: auto;
+  padding-inline: 12px;
+}
+
+button {
+  cursor: pointer;
+}
