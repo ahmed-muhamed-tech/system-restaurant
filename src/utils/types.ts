@@ -67,3 +67,46 @@ export type ApiError = Error & {
 export type FormDataResend = {
   email: string;
 };
+
+
+//  Menu Page
+
+export type Image = {
+  id: string;
+  menuItemId: string;
+  url: string;
+  publicId: string;
+  order: number;
+  createdAt: string;
+};
+
+export type Data = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  isAvailable: boolean;
+  createdAt: string;
+  updatedAt: string;
+  images: Image[];
+};
+
+export type Meta = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export type ResponseData = {
+  data: Data[];
+  meta: Meta;
+};
+
+export type MenuQeury = {
+  data: ResponseData | undefined;
+  isError: boolean;
+  isPending: boolean;
+  error: any;
+};

@@ -9,11 +9,20 @@ import ForgetPassword from "../pages/auth/ForgetPassword";
 import MainLayout from "../layouts/MainLayout";
 import ResetPassword from "../pages/auth/ResetPassword";
 import ResendCode from "../pages/auth/ResendCode";
+import Home from "../pages/Home";
+import NotFound from "../components/NotFound";
+import DetailsProduct from "../pages/DetailsProduct";
+import Cart from "../pages/Cart";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "product/:productId", element: <DetailsProduct /> },
+      { path: "cart", element: <Cart /> },
+    ],
   },
   {
     path: "/auth",
@@ -37,23 +46,29 @@ const router = createBrowserRouter([
       },
       {
         path: "forget-password",
-        element: <ForgetPassword/>
-      },{
+        element: <ForgetPassword />,
+      },
+      {
         path: "reset-password",
-        element: <ResetPassword/>
-      },{
+        element: <ResetPassword />,
+      },
+      {
         path: "resend-code",
-        element: <ResendCode/>
-      }
+        element: <ResendCode />,
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 
 export default function Routes() {
   return (
-   <><ToastContainer position="top-center" />
-      <RouterProvider router={router} /></>
-      
-  
+    <>
+      <ToastContainer position="top-center" />
+      <RouterProvider router={router} />
+    </>
   );
 }
