@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import AuthLogoLeft from "../components/AuthLogoLeft";
+import AuthLogoLeft from "../pages/auth/components/AuthLogoLeft";
 
 export default function AuthLayout() {
   return (
