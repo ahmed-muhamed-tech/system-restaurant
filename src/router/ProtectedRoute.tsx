@@ -1,6 +1,6 @@
-// core/ProtectedRoute.tsx
+
+import useStore from "@/session/storeAuth"
 import { Navigate } from "react-router-dom"
-import useStore from "../session/storeAuth"
 
 export default function ProtectedRoute({
   children,
