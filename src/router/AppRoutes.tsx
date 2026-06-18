@@ -7,6 +7,7 @@ import Register from "@/pages/auth/register";
 import ResendCode from "@/pages/auth/resend-code";
 import ResetPassword from "@/pages/auth/reset-password";
 import Verify from "@/pages/auth/verify";
+import DetailsProduct from "@/pages/user/DetailsProduct";
 
 
 import Home from "@/pages/user/home";
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { index: true, element: <Home /> },
-
+      { path: "product/:productId", element: <DetailsProduct/>}
     ],
   },
   {

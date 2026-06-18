@@ -7,7 +7,7 @@ export default function MainLayout() {
       <div className="flex h-screen overflow-hidden bg-gray-100">
         <Sidebar />
 
-        <div className="flex-1 min-w-0 overflow-y-auto px-4 lg:px-8">
+        <div className="flex-1 min-w-0 overflow-y-auto">
           <Outlet />
         </div>
       </div>
