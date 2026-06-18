@@ -1,7 +1,7 @@
 import { IoIosStar, IoIosStarHalf } from "react-icons/io";
 import type { CurrentProduct } from "@/pages/user/DetailsProduct/models";
 import useProductDetails from "../hooks/useProductDetails";
-import "@/pages/user/DetailsProduct/style.css";
+
 export default function BodyDetails({
   currentProduct,
 }: {
