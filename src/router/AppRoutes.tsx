@@ -1,18 +1,26 @@
+import AuthLayout from "@/layouts/AuthLayout";
+import MainLayout from "@/layouts/MainLayout";
+import NotFound from "@/components/ui/NotFound";
+import ForgetPassword from "@/pages/auth/forget-password";
+import Login from "@/pages/auth/login";
+import Register from "@/pages/auth/register";
+import ResendCode from "@/pages/auth/resend-code";
+import ResetPassword from "@/pages/auth/reset-password";
+import Verify from "@/pages/auth/verify";
+
+
+import Home from "@/pages/user/home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import AuthLayout from "../layouts/AuthLayout";
-import MainLayout from "../layouts/MainLayout";
-import ResetPassword from "../pages/auth/reset-password";
-import Register from "@/pages/auth/register";
-import Verify from "@/pages/auth/verify";
-import Login from "@/pages/auth/login";
-import ForgetPassword from "@/pages/auth/forget-password";
-import ResendCode from "@/pages/auth/resend-code";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    children: [
+      { index: true, element: <Home /> },
+
+    ],
   },
   {
     path: "/auth",
@@ -36,23 +44,29 @@ const router = createBrowserRouter([
       },
       {
         path: "forget-password",
-        element: <ForgetPassword/>
-      },{
+        element: <ForgetPassword />,
+      },
+      {
         path: "reset-password",
-        element: <ResetPassword/>
-      },{
+        element: <ResetPassword />,
+      },
+      {
         path: "resend-code",
-        element: <ResendCode/>
-      }
+        element: <ResendCode />,
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 
 export default function AppRoutes() {
   return (
-   <><ToastContainer position="top-center" />
-      <RouterProvider router={router} /></>
-      
-  
+    <>
+      <ToastContainer position="top-center" />
+      <RouterProvider router={router} />
+    </>
   );
 }

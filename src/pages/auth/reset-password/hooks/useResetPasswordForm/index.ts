@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useResetPassword } from "@/pages/auth/reset-password/hooks/useResetPasswordQuery";
 import { resetpasswordSchema } from "@/pages/auth/reset-password/utils";
-import type { ApiError } from "@/pages/auth/reset-password/models";
+import type { ApiError } from "@/pages/auth/reset-password/modules";
 
 export default function useReset() {
   const form = useForm({

@@ -1,15 +1,6 @@
-import type { UserInfo } from "@/utils/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-type Store = {
-  userInfo: UserInfo | null;
-  token: string | null;
-
-  setUserInfo: (user: UserInfo | null) => void;
-  setToken: (token: string) => void;
-  clearUserInfo: () => void;
-};
+import type { Store, UserInfo } from "@/session/models";
 
 const useStore = create<Store>()(
   persist(

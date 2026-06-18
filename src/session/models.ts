@@ -14,3 +14,11 @@ export type UserInfo = {
   updatedAt: string;
 };
 
+export type Store = {
+  userInfo: UserInfo | null;
+  token: string | null;
+
+  setUserInfo: (user: UserInfo | null) => void;
+  setToken: (token: string) => void;
+  clearUserInfo: () => void;
+};

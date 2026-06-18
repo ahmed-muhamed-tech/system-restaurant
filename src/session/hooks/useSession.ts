@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { useEffect } from "react";
-import useStore from "./storeAuth";
-import { fetchUserInfo } from "./api";
+import useStore from "../storeAuth";
+import { fetchUserInfo } from "../api";
+
 
 export const useMe = () => {
   const { setUserInfo } = useStore();

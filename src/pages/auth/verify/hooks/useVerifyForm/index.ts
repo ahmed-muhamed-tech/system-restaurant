@@ -9,7 +9,7 @@ import type {
   ApiError,
   LoginSuccessResponse,
   VerifyForm,
-} from "@/pages/auth/verify/models";
+} from "@/pages/auth/verify/modules";
 import { useVerifyEmailUser } from "@/pages/auth/verify/hooks/useVerifyQuery";
 import useStore from "@/session/storeAuth";
 

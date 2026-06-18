@@ -1,3 +1,5 @@
+import Logo from "@/components/brand/Logo";
+
 export default function AuthLogoLeft() {
   return (
     <div className=" xl:flex relative hidden flex-col items-center justify-center min-h-screen bg-[#F7F6F0] w-full lg:w-1/2 overflow-hidden p-8 select-none">
@@ -28,18 +30,7 @@ export default function AuthLogoLeft() {
       </div>
 
       <div className="relative flex flex-col items-center z-10 text-center">
-        <div className="w-24 h-24 bg-linear-to-br from-accent to-primary rounded-[28px] flex items-center justify-center shadow-[0_12px_40px_rgba(242,153,74,0.3)] mb-4 transform transition-transform hover:scale-105 duration-300">
-          <div className="relative w-10 h-14 bg-white rounded-b-full rounded-tl-full transform rotate-45 flex items-center justify-center">
-            <div className="w-5 h-7 bg-[#F2994A] rounded-b-full rounded-tl-full transform scale-90" />
-          </div>
-        </div>
-
-        <h1 className="text-4xl font-extrabold text-[#0D1C2E] tracking-wide font-sans mb-1">
-          مزاج
-        </h1>
-        <p className="text-sm font-medium text-[#7A869A] tracking-widest">
-          طعام يجمعنا
-        </p>
+        <Logo />
       </div>
     </div>
   );

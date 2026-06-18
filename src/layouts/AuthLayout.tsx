@@ -3,7 +3,7 @@ import AuthLogoLeft from "../pages/auth/components/AuthLogoLeft";
 
 export default function AuthLayout() {
   return (
-    <div className="flex items-center justify-center xl:justify-between min-h-screen bg-white">
+    <div className="flex items-center  justify-center xl:justify-between min-h-screen bg-white">
       {/* Logo Auth */}
       <AuthLogoLeft />
 

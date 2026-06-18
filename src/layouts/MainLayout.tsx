@@ -1,13 +1,16 @@
-import useStore from "@/session/storeAuth";
+import Sidebar from "@/components/ui/Sidebar";
+import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
-  const { userInfo } = useStore();
-
   return (
-    <div className="h-screen flex justify-center items-center text-6xl bg-card text-accent font-black">
-      <h1 className="py-2 px-4 bg-primary/20 rounded-xl">
-        Welcome : {userInfo && userInfo.firstName}
-      </h1>
+    <div className="bg-gray-100 min-h-screen overflow-hidden">
+      <div className="flex h-screen overflow-hidden bg-gray-100">
+        <Sidebar />
+
+        <div className="flex-1 min-w-0 overflow-y-auto px-4 lg:px-8">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 }

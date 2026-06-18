@@ -4,7 +4,7 @@ import { emailSchema } from "@/pages/auth/resend-code/utils";
 import { useNavigate } from "react-router-dom";
 import { useResendCode } from "@/pages/auth/resend-code/hooks/useResendCodeQuery";
 import { toast } from "react-toastify";
-import type { ApiError, FormDataResend } from "@/pages/auth/resend-code/models";
+import type { ApiError, FormDataResend } from "@/pages/auth/resend-code/modules";
 
 export default function useResend() {
   const form = useForm<FormDataResend>({
