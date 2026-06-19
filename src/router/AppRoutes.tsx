@@ -13,6 +13,7 @@ import DetailsProduct from "@/pages/user/DetailsProduct";
 import Home from "@/pages/user/home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Cart from "@/pages/user/cart";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "product/:productId", element: <DetailsProduct/>}
+      { path: "product/:productId", element: <DetailsProduct/> },
+      { path: "cart", element: <Cart/> }
     ],
   },
   {
