@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export default function useProductDetails(
+  id: string,
   size: string,
   priceSize: number,
   hasDiscount: boolean,
@@ -9,9 +10,11 @@ export default function useProductDetails(
   const [count, setCount] = useState(1);
 
   const [selectedSize, setSelectedSize] = useState<{
+    id: string;
     label: string;
     price: number;
   }>({
+    id: id,
     label: size,
     price: priceSize,
   });
@@ -36,18 +39,22 @@ export default function useProductDetails(
       : setSelectedAddons((prev) => prev.filter((addon) => addon.id !== id));
   };
 
-  const handleAddSizes = (label: string, price: number) => {
+  const handleAddSizes = (id: string, label: string, price: number) => {
     setSelectedSize({
+      id,
       label,
-      price,
+      price
     });
+    
   };
 
-  const priceAfterDiscount = hasDiscount && discountPercentage
-    ? selectedSize.price - (selectedSize.price * discountPercentage) / 100
-    : selectedSize.price;
 
-  const finalPrice = (priceAfterDiscount + totalPriceAddons) * count;
+  const priceAfterDiscount =
+    hasDiscount && discountPercentage
+      ? Math.floor(selectedSize.price - (selectedSize.price * discountPercentage) / 100)
+      : Math.floor(selectedSize.price);
+
+  const finalPrice = Math.floor( (priceAfterDiscount + totalPriceAddons) * count);
 
   return {
     setCount,
@@ -55,6 +62,9 @@ export default function useProductDetails(
     selectedSize,
     finalPrice,
     handleAddSizes,
+    selectedAddons,
     handleCheckedAddons,
+    setSelectedSize,
+    setSelectedAddons,
   };
 }

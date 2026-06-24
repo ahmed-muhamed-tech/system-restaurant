@@ -1,6 +1,8 @@
 import { IoIosStar, IoIosStarHalf } from "react-icons/io";
 import type { CurrentProduct } from "@/pages/user/DetailsProduct/models";
 import useProductDetails from "../hooks/useProductDetails";
+import { useRef } from "react";
+import useAddProduct from "../hooks/useAddProduct";
 
 export default function BodyDetails({
   currentProduct,
@@ -21,6 +23,7 @@ export default function BodyDetails({
   // Default select size
   const defaultSizeLabel = sizes[0].label;
   const defaultSizePrice = sizes[0].price;
+  const defaultSizeId = sizes[0].id;
 
   const {
     setCount,
@@ -28,13 +31,41 @@ export default function BodyDetails({
     finalPrice,
     selectedSize,
     handleAddSizes,
+    selectedAddons,
+    setSelectedSize,
     handleCheckedAddons,
+    setSelectedAddons,
   } = useProductDetails(
+    defaultSizeId,
     defaultSizeLabel,
     defaultSizePrice,
     hasDiscount,
     discountPercentage,
   );
+
+  const notesRef = useRef<HTMLTextAreaElement>(null);
+
+  function reset() {
+    setCount(1);
+    setSelectedSize({
+      id: defaultSizeId,
+      label: defaultSizeLabel,
+      price: defaultSizePrice,
+    });
+    setSelectedAddons([]);
+    if (notesRef.current !== null) {
+      notesRef.current.value = "";
+    }
+  }
+
+  const { sendProductToCart, isPending } = useAddProduct({
+    currentProduct,
+    sizeId: selectedSize.id,
+    addonIds: selectedAddons.map(({ id }) => id),
+    quantity: count,
+    note: notesRef.current?.value.trim() || "",
+    reset,
+  });
 
   return (
     <div className="h-full flex flex-col gap-11 justify-between">
@@ -54,7 +85,10 @@ export default function BodyDetails({
         <div className="mb-6 flex items-center gap-3 flex-wrap">
           <span className="text-3xl font-bold text-primary">
             {hasDiscount && discountPercentage
-              ? Math.floor(defaultSizePrice - defaultSizePrice * (discountPercentage / 100))
+              ? Math.floor(
+                  defaultSizePrice -
+                    defaultSizePrice * (discountPercentage / 100),
+                )
               : Math.floor(defaultSizePrice)}
             ج.م
           </span>
@@ -81,7 +115,7 @@ export default function BodyDetails({
           {sizes.map(({ label, price, id, isAvailable }) => (
             <button
               key={id}
-              onClick={() => handleAddSizes(label, price)}
+              onClick={() => handleAddSizes(id, label, price)}
               disabled={!isAvailable}
               className={`
                 rounded-2xl py-3
@@ -96,7 +130,12 @@ export default function BodyDetails({
               `}
             >
               <h4 className="font-medium">{label}</h4>
-              <p className="text-sm">{price} ج.م</p>
+              <p className="text-sm">
+                {hasDiscount && discountPercentage
+                  ? Math.floor(price - (price * discountPercentage) / 100)
+                  : Math.floor(price)}{" "}
+                ج.م
+              </p>
             </button>
           ))}
         </div>
@@ -114,6 +153,11 @@ export default function BodyDetails({
                 <input
                   type="checkbox"
                   id={id}
+                  checked={
+                    selectedAddons.find((addon) => addon.id === id)
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     handleCheckedAddons(id, e.target.checked, name, price);
                   }}
@@ -133,37 +177,65 @@ export default function BodyDetails({
       </div>
 
       {/* Button count product & Button add to cart */}
-      <div className="w-full flex-wrap justify-center md:justify-start flex gap-5 items-center  text-2xl">
-        <div className="flex flex-col gap-2 items-center  sm:flex-row md:gap-5 bg-gray-100 rounded-full px-3 py-2">
-          <button
-            disabled={!isAvailable}
-            onClick={() => {
-              setCount((pre) => pre + 1);
-            }}
-            className="w-10 h-10 rounded-full bg-white shadow hover:bg-primary hover:text-white transition"
-          >
-            +
-          </button>
+      <div>
+        <div className="mb-5">
+          <label className="block text-lg text-gray-700 mb-3">
+            ملاحظات خاصة بالطلب
+          </label>
 
-          <span className="font-bold text-xl w-6 text-center">{count}</span>
-
-          <button
-            disabled={!isAvailable}
-            onClick={() => {
-              if (count > 1) setCount((pre) => pre - 1);
-            }}
-            className="w-10 h-10 rounded-full bg-white shadow hover:bg-primary hover:text-white transition"
-          >
-            -
-          </button>
+          <textarea
+            ref={notesRef}
+            placeholder="مثال: بدون بصل، زيادة صوص، أقل ملح..."
+            rows={2}
+            maxLength={200}
+            className="
+            w-full
+            rounded-2xl
+            border border-gray-200
+            bg-gray-50
+            px-4 py-4
+            text-base lg:text-lg
+            resize-none
+            outline-none
+            transition-all duration-300
+            focus:border-primary
+            focus:ring-4 focus:ring-primary/10
+            placeholder:text-gray-400
+            "
+          ></textarea>
         </div>
+        <div className="w-full flex-wrap justify-center md:justify-start flex gap-5 items-center  text-2xl mb-8">
+          <div className="flex flex-col gap-2 items-center  sm:flex-row md:gap-5 bg-gray-100 rounded-full px-3 py-2">
+            <button
+              disabled={!isAvailable}
+              onClick={() => {
+                setCount((pre) => pre + 1);
+              }}
+              className="w-10 h-10 rounded-full bg-white shadow hover:bg-primary hover:text-white transition"
+            >
+              +
+            </button>
 
-        <button
-          disabled={!isAvailable}
-          className="
+            <span className="font-bold text-xl w-6 text-center">{count}</span>
+
+            <button
+              disabled={!isAvailable}
+              onClick={() => {
+                if (count > 1) setCount((pre) => pre - 1);
+              }}
+              className="w-10 h-10 rounded-full bg-white shadow hover:bg-primary hover:text-white transition"
+            >
+              -
+            </button>
+          </div>
+
+          <button
+            disabled={!isAvailable || isPending}
+            className="
             text-lg
             lg:text-2xl
             flex-1
+         
             bg-primary
             text-white
             py-5
@@ -176,19 +248,23 @@ export default function BodyDetails({
             flex-wrap
             justify-center items-center gap-2
           "
-        >
-          {isAvailable ? (
-            <>
-              <span>أضف إلى السلة</span>
+            onClick={sendProductToCart}
+          >
+            {isAvailable ? (
+              <>
+                <span>
+                  {isPending ? "جاري اضافه المنتج..." : "أضف الي السله"}
+                </span>
 
-              <div className="bg-white/20 px-4 py-1 rounded-full font-bold">
-                {Math.floor(finalPrice)} ج.م
-              </div>
-            </>
-          ) : (
-            <span className="mx-auto">هذا المنتج غير متاح حالياً</span>
-          )}
-        </button>
+                <div className="bg-white/20 px-4 py-1 rounded-full font-bold">
+                  {Math.floor(finalPrice)} ج.م
+                </div>
+              </>
+            ) : (
+              <span className="mx-auto">هذا المنتج غير متاح حالياً</span>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
