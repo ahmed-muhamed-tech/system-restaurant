@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Store, UserInfo } from "@/session/models";
+import type { Store } from "@/session/models";
 
 const useStore = create<Store>()(
   persist(
@@ -28,6 +28,7 @@ const useStore = create<Store>()(
       name: "token",
       partialize: (state) => ({
         token: state.token,
+        userInfo: state.userInfo,
       }),
     },
   ),

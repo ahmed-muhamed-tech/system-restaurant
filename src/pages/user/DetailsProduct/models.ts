@@ -35,3 +35,20 @@ export type CurrentProduct = {
   sizes: Sizes[];
   discountPercentage: number | null;
 };
+
+export type ProductCart = {
+  menuItemId: string;
+  sizeId: string;
+  addonIds: string[];
+  quantity: number;
+  note: string;
+};
+
+export type UseAddProductProps = {
+  currentProduct: CurrentProduct;
+  sizeId: string;
+  addonIds: string[];
+  quantity: number;
+  note: string;
+  reset: () => void;
+};
