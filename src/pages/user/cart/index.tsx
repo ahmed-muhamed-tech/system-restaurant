@@ -1,117 +1,22 @@
-
-import CardProduct from "./components/CardProduct";
-import { useDataCartQeury } from "./hooks/useDataCartQeury";
-
-type Image = {
-  url: string;
-  id: string;
-};
-
-type MenuItems = {
-  name: string;
-  images: Image[];
-};
-
-type Addons = {
-  price: number;
-  name: string;
-};
-
-type CardResponse = {
-  quantity: number;
-  totalPrice: number;
-  menuItem: MenuItems;
-  addons: Addons[];
-  id: string;
-  unitPrice: number
-};
+import { useCartQuery } from "./hooks/useCartQuery";
+import CardPrices from "./components/CardPrices";
+import CartItems from "./components/CartItems";
 
 export default function Cart() {
-  const { data, isPending, isError } = useDataCartQeury();
+  const { data, isPending, isError } = useCartQuery();
+
+  const totalPriceItems = data?.data?.subtotal ?? 0;
 
   if (isPending) return;
-
-  console.log(data?.data);
-  const { itemCount, subtotal, items } = data.data;
+  if (isError) return;
+  const { itemCount, items } = data?.data;
 
   return (
     <div className="flex flex-col-reverse lg:flex-row gap-5 w-full lg:h-screen lg:overflow-hidden  lg:pl-5">
       {/* Products */}
-      <div className="lg:w-2/3 py-8 px-4 lg:overflow-y-auto mb-22 lg:mb-0">
-        {/* Head */}
-        <div className="flex gap-1 text-xl font-semibold items-center">
-          <h2 className="text-gray-700 text-2xl lg:text-3xl">سله الطلبات</h2>
-          <div className="text-white bg-primary w-8 h-8 rounded-full flex items-center justify-center font-black">
-            <h2>{itemCount}</h2>
-          </div>
-        </div>
+      <CartItems itemCount={itemCount} items={items} />
 
-        {/* Products */}
-        <div className="mt-8 flex flex-col gap-4 ">
-          {items.length === 0 ? (
-            <h3 className="text-2xl lg:text-4xl text-primary text-center bg-gray-100 border border-white rounded-2xl py-2 shadow-2xl shadow-gray-300">
-              السله فارغه
-            </h3>
-          ) : (
-            items.map(
-              ({
-                quantity,
-                totalPrice,
-                menuItem,
-                unitPrice,
-                addons,
-                id,
-              }: CardResponse) => (
-                // details
-                <CardProduct
-                  key={id}
-                  id={id}
-                  quantity={quantity}
-                  addons={addons}
-                  unitPrice={unitPrice}
-                  totalPrice={totalPrice}
-                  title = {menuItem.name}
-                  image={menuItem.images[0].url}
-                />
-              ),
-            )
-          )}
-        </div>
-      </div>
-
-      {/* Total */}
-      <div className="lg:w-1/3 p-4 rounded-xl mt-12 h-fit bg-white">
-        <h3 className="text-xl text-gray-800">ملخص الطلب</h3>
-
-        <div className="mt-4 flex flex-col gap-1 mb-2 pb-3 border-b border-gray-500">
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <h4>المجموع الفرعي</h4>
-            <h4>364 ج.م</h4>
-          </div>
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <h4>رسوم التوصيل</h4>
-            <h4>63 ج.م</h4>
-          </div>
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <h4>الخصم</h4>
-            <h4>36 ج.م</h4>
-          </div>
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <h4>الضريبه</h4>
-            <h4>68 ج.م</h4>
-          </div>
-        </div>
-
-        <div className="flex justify-between items-center mb-5 text-2xl">
-          <h3>الاجمالي</h3>
-
-          <h3 className="text-primary">{subtotal} ج.م</h3>
-        </div>
-
-        <button className="text-white bg-primary text-center w-full mt-2 rounded-2xl py-3 text-xl hover:font-bold transition-all duration-300">
-          اتمام الطلب
-        </button>
-      </div>
+      <CardPrices cartSubtotal={totalPriceItems} />
     </div>
   );
 }

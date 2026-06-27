@@ -3,6 +3,7 @@ type ConfirmProps = {
   message: string;
   onConfirm: () => void;
   onCancel: () => void;
+  isPending: boolean
 };
 
 export default function Confirm({
@@ -10,6 +11,7 @@ export default function Confirm({
   message,
   onConfirm,
   onCancel,
+  isPending
 }: ConfirmProps) {
   return (
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
@@ -47,8 +49,9 @@ export default function Confirm({
               hover:bg-red-600
               transition
             "
+            disabled={isPending}
           >
-            تأكيد
+            {isPending ? "جاري الحذف" : "تأكيد"}
           </button>
         </div>
       </div>
