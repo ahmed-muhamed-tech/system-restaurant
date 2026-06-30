@@ -9,10 +9,10 @@ import ResetPassword from "@/pages/auth/reset-password";
 import Verify from "@/pages/auth/verify";
 import DetailsProduct from "@/pages/user/DetailsProduct";
 
-
 import Home from "@/pages/user/home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Favorites from "@/pages/user/Favorites";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +20,11 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "product/:productId", element: <DetailsProduct/>}
+      { path: "product/:productId", element: <DetailsProduct /> },
+      {
+        path: "favorites",
+        element: <Favorites />,
+      },
     ],
   },
   {
