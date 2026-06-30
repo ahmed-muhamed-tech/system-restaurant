@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
 import CardProductLoading from "@/pages/user/home/components/CardProductLoading";
 import CardProduct from "@/pages/user/home/components/CardProduct";
 import { useFetchMenu } from "@/pages/user/home/hooks/useMenuQuery";
@@ -20,8 +18,7 @@ export default function Products({ category }: { category: string }) {
 
   useEffect(() => setCurrentPage(1), [category]);
 
-  if (isErrorMenus) 
-    return <Error/>
+  if (isErrorMenus) return <Error />;
 
   return (
     <>
@@ -38,16 +35,16 @@ export default function Products({ category }: { category: string }) {
               { id, name, description, price, images, isAvailable }: MenuItem,
               index: number,
             ) => (
-              <Link key={id} to={`product/${id}`}>
-                <CardProduct
-                  index={index}
-                  name={name}
-                  description={description}
-                  price={price}
-                  images={images}
-                  isAvailable={isAvailable}
-                />
-              </Link>
+              <CardProduct
+                key={id}
+                id={id}
+                index={index}
+                name={name}
+                description={description}
+                price={price}
+                images={images}
+                isAvailable={isAvailable}
+              />
             ),
           )}
       </div>

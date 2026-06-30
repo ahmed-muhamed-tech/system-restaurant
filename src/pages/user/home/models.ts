@@ -76,6 +76,8 @@ export type CardProductProps = {
   price: number;
   isAvailable: boolean;
   images: MenuItemImage[];
+  id: string;
+
 };
 
 export type CategoryFilterProps = {

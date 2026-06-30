@@ -40,7 +40,7 @@ const pages = [
   {
     id: "favorite",
     title: "المفضلة",
-    path: "/favorite",
+    path: "/favorites",
     icon: <MdFavoriteBorder />,
   },
 ];
