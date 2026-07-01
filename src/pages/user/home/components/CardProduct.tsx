@@ -1,4 +1,4 @@
-import {  FaStar } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa6";
 import { motion } from "motion/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -6,6 +6,12 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { IoIosHeart } from "react-icons/io";
 import type { CardProductProps } from "@/pages/user/home/models";
+import useAddProductToFavorite from "../hooks/useAddProductToFavorite";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import useIsCurrentProductFavorite from "../hooks/useIsCurrentProductFavorite";
+
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CardProduct({
   index,
@@ -14,7 +20,32 @@ export default function CardProduct({
   price,
   images,
   isAvailable,
+  id,
 }: CardProductProps) {
+  const { isPending: isLoadingAddToFavorite, mutate: addToFavorite } =
+    useAddProductToFavorite(id);
+  const {
+    isPending: isLoadingFavorite,
+    data: isFavoriteProduct,
+    isError: isErrorFavorite,
+  } = useIsCurrentProductFavorite(id);
+  const isFavorite = isFavoriteProduct?.data?.isFavorite;
+
+  const queryClient = useQueryClient();
+  const handleFavoriteProduct = () => {
+    addToFavorite(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["isFavorite", id],
+        });
+        toast.success(`تم اضافه ${name} بنجاح`);
+      },
+      onError: (error) => {
+        toast.error("حدث خطأ جرب مره أخرى");
+        console.log(error);
+      },
+    });
+  };
 
   return (
     <motion.div
@@ -30,22 +61,30 @@ export default function CardProduct({
         </div>
       )}
       <div className="pr-4 flex flex-col justify-between py-4 w-full px-8">
-        <div>
+        <Link to={`product/${id}`}>
           <h3 className="text-xl lg:text-2xl font-medium">{name}</h3>
           <p className="mt-2 text-sm md:text-sm text-muted">{description}</p>
           <div className="mt-2 flex items-center gap-2 text-lg lg:text-xl">
             <FaStar className="text-primary" />
             <span className="text-muted">4.7</span>
           </div>
-        </div>
+        </Link>
 
         <div className="flex mt-6  justify-between items-center text-sm lg:text-xl">
           <div className="flex items-center gap-2 text-xl lg:text-3xl">
             <button className="w-8 h-8  flex justify-center items-center rounded-md lg:rounded-2xl bg-primary text-white hover:rotate-180 transition-all duration-300">
-            +
-          </button>
+              +
+            </button>
 
-          <IoIosHeart className="text-gray-500 hover:scale-105  hover:text-red-500 hover:border-transparent transition-all duration-300 cursor-pointer " />
+            {!isLoadingFavorite && (
+              <button
+                onClick={handleFavoriteProduct}
+                disabled={isLoadingAddToFavorite}
+                className={`text-gray-500 hover:scale-105  ${isLoadingAddToFavorite && "animate-pulse"} hover:text-red-500 ${isFavorite && "text-red-500"} hover:border-transparent transition-all duration-300 cursor-pointer`}
+              >
+                <IoIosHeart />
+              </button>
+            )}
           </div>
           <div className="flex gap-1 items-end">
             <span className="text-lg line-through text-primary">300</span>

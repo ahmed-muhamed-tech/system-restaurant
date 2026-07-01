@@ -35,7 +35,7 @@ const pages = [
   {
     id: "favorite",
     title: "المفضلة",
-    path: "/favorite",
+    path: "/favorites",
     icon: <MdFavoriteBorder />,
   },
 ];
@@ -54,7 +54,7 @@ export default function Sidebar() {
     {
       id: "profile",
       title: token ? "حسابي" : "دخول",
-      path: token ? "/profile" : "/auth/login",
+      path: token ? "/profile-user" : "/auth/login",
       icon: <CgProfile />,
     },
   ];
@@ -155,7 +155,7 @@ export default function Sidebar() {
           {token ? (
             <>
               <Link
-                to="/profile"
+                to="/profile-user"
                 className={`
                   flex items-center gap-3
                   rounded-2xl
