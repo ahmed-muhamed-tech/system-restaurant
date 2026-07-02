@@ -3,7 +3,6 @@ import { MdDeleteOutline } from "react-icons/md";
 import Confirm from "@/components/ui/Confirm";
 import type { CardProductProps } from "../models";
 import useCartItemControls from "../hooks/useCartItemControls";
-import { useRef, useState } from "react";
 
 export default function CartItemCard({
   id,
@@ -21,15 +20,16 @@ export default function CartItemCard({
     increase,
     isDeleteConfirmOpen,
     setIsDeleteConfirmOpen,
-    count,
-    itemTotal,
     isDeleting,
     setMessage,
     isEdit,
     message,
     setIsEdit,
     handleEditNote,
+    localQuantity,
+    handleDeleteNote
   } = useCartItemControls({ quantity, id, totalPrice, title, unitPrice, note });
+  console.log(note)
 
   if (isDeleteConfirmOpen)
     return (
@@ -86,13 +86,13 @@ export default function CartItemCard({
         <div>
           <h4 className="text-gray-400 text-sm mb-1">الإجمالي</h4>
 
-          <p className="text-2xl font-bold text-primary">{itemTotal} ج.م</p>
+          <p className="text-2xl font-bold text-primary">{totalPrice} ج.م</p>
         </div>
 
         <ButtonsCountProducts
           increase={increase}
           decrease={decrease}
-          count={count}
+          count={localQuantity}
         />
 
         <button
@@ -121,23 +121,23 @@ export default function CartItemCard({
           rows={4}
           placeholder="اكتب رسالتك هنا..."
           className="
-    w-full
-    px-4 py-3
-    text-sm lg:text-lg
-    text-gray-800
-    bg-white
-    rounded-2xl
-    border border-gray-200
-    resize-none
-    outline-none
-    transition-all duration-300
-    focus:border-primary
-    focus:ring-4 focus:ring-primary/10
-    hover:border-primary
-    disabled:bg-gray-100
-    disabled:text-gray-500
-    disabled:cursor-not-allowed
-  "
+          w-full
+          px-4 py-3
+          text-sm lg:text-lg
+          text-gray-800
+          bg-white
+          rounded-2xl
+          border border-gray-200
+          resize-none
+          outline-none
+          transition-all duration-300
+          focus:border-primary
+          focus:ring-4 focus:ring-primary/10
+          hover:border-primary
+          disabled:bg-gray-100
+          disabled:text-gray-500
+          disabled:cursor-not-allowed
+        "
         />
         <div className="flex mt-3 items-center gap-2">
           {isEdit ? (
@@ -156,7 +156,7 @@ export default function CartItemCard({
             </button>
           )}
 
-          <button className="py-1 px-2 lg:py-2 lg:px-4 rounded-md text-lg lg:text-xl bg-red-500 text-white flex-1 hover:scale-98 transition-all duration-200">
+          <button disabled={!message} onClick={handleDeleteNote} className="py-1 px-2 lg:py-2 lg:px-4 rounded-md text-lg lg:text-xl bg-red-500 text-white flex-1 hover:scale-98 transition-all duration-200">
             حذف
           </button>
         </div>

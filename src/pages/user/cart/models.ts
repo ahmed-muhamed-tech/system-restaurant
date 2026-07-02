@@ -40,11 +40,13 @@ export type CartControlsProps = {
   totalPrice: number;
   title: string;
   unitPrice: number;
-  note: string
+  note: string;
+  
 };
 
 export type CartStore = {
   count: number;
   inc: () => void;
   dec: () => void;
+  setCount: (newCount: number) => void;
 };

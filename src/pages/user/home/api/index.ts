@@ -2,7 +2,6 @@ import { api } from "@/services/api";
 
 export const fetchCategories = async () => {
   const response = await api.get("/categories");
-  console.log(response.data)
   return response.data;
 };
 

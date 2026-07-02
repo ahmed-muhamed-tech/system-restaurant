@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import {
   IoBagHandleOutline,
@@ -12,7 +12,8 @@ import { MdFavoriteBorder, MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 import { CgProfile } from "react-icons/cg";
 import useStore from "@/session/storeAuth";
-import {  useCartStore } from "@/pages/user/cart/store/cart";
+import { useCartStore } from "@/pages/user/cart/store/cart";
+import { useCartQuery } from "@/hooks/useCartQuery";
 const pages = [
   {
     id: "home",
@@ -42,12 +43,18 @@ const pages = [
 
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
-  
-  const {count} = useCartStore()
-
 
   const { pathname } = useLocation();
   const { token } = useStore();
+
+  const { data } = useCartQuery();
+  const { setCount, count } = useCartStore();
+
+  useEffect(() => {
+    if (!data) return;
+
+    setCount(data.data.itemCount);
+  }, [data, setCount]);
 
   const mobilePages = [
     ...pages,
@@ -133,7 +140,7 @@ export default function Sidebar() {
                     {icon}
                   </div>
 
-                  {id === "cart" && count > 0  && (
+                  {id === "cart" && count > 0 && (
                     <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
                       <span>{count}</span>
                     </div>

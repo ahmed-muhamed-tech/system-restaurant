@@ -13,7 +13,7 @@ export default function useAddProduct({
   reset,
 }: UseAddProductProps) {
   const { inc } = useCartStore();
-  const { mutate, isPending } = useAddProductToCartQuery(currentProduct.id);
+  const { mutate, isPending } = useAddProductToCartQuery();
   const { token } = useStore();
   const sendProductToCart = () => {
     if (!token) {
