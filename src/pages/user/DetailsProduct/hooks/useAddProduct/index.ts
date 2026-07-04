@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import type { UseAddProductProps } from "../../models";
 import { useAddProductToCartQuery } from "../useAddProductToCartQuery";
 import useStore from "@/session/storeAuth";
+import { useCartStore } from "@/pages/user/cart/store/cart";
 
 export default function useAddProduct({
   currentProduct,
@@ -11,7 +12,8 @@ export default function useAddProduct({
   note,
   reset,
 }: UseAddProductProps) {
-  const { mutate, isPending } = useAddProductToCartQuery(currentProduct.id);
+  const { inc } = useCartStore();
+  const { mutate, isPending } = useAddProductToCartQuery();
   const { token } = useStore();
   const sendProductToCart = () => {
     if (!token) {
@@ -36,6 +38,7 @@ export default function useAddProduct({
         onSuccess: () => {
           reset();
           toast.success(`تم اضافه ${currentProduct.name} بنجاح`);
+          inc();
         },
         onError: () => {
           toast.error("حدث خطأ برجاء المحاوله مره اخري");

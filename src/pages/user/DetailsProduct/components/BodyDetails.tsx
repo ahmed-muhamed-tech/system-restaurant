@@ -1,7 +1,7 @@
 import { IoIosStar, IoIosStarHalf } from "react-icons/io";
 import type { CurrentProduct } from "@/pages/user/DetailsProduct/models";
 import useProductDetails from "../hooks/useProductDetails";
-import { useRef } from "react";
+import {  useState } from "react";
 import useAddProduct from "../hooks/useAddProduct";
 
 export default function BodyDetails({
@@ -43,7 +43,7 @@ export default function BodyDetails({
     discountPercentage,
   );
 
-  const notesRef = useRef<HTMLTextAreaElement>(null);
+  const [note, setNote] = useState("");
 
   function reset() {
     setCount(1);
@@ -53,8 +53,8 @@ export default function BodyDetails({
       price: defaultSizePrice,
     });
     setSelectedAddons([]);
-    if (notesRef.current !== null) {
-      notesRef.current.value = "";
+    if (note !== null) {
+      setNote("")
     }
   }
 
@@ -63,7 +63,7 @@ export default function BodyDetails({
     sizeId: selectedSize.id,
     addonIds: selectedAddons.map(({ id }) => id),
     quantity: count,
-    note: notesRef.current?.value.trim() || "",
+    note: note.trim() || "",
     reset,
   });
 
@@ -85,18 +85,15 @@ export default function BodyDetails({
         <div className="mb-6 flex items-center gap-3 flex-wrap">
           <span className="text-3xl font-bold text-primary">
             {hasDiscount && discountPercentage
-              ? Math.floor(
-                  defaultSizePrice -
-                    defaultSizePrice * (discountPercentage / 100),
-                )
-              : Math.floor(defaultSizePrice)}
+              ? defaultSizePrice - defaultSizePrice * (discountPercentage / 100)
+              : defaultSizePrice}
             ج.م
           </span>
 
           {hasDiscount && (
             <>
               <span className="line-through text-gray-400 text-lg">
-                {Math.floor(defaultSizePrice)} ج.م
+                {defaultSizePrice} ج.م
               </span>
 
               <span className="bg-primary text-white text-sm px-3 py-1 rounded-full">
@@ -132,8 +129,8 @@ export default function BodyDetails({
               <h4 className="font-medium">{label}</h4>
               <p className="text-sm">
                 {hasDiscount && discountPercentage
-                  ? Math.floor(price - (price * discountPercentage) / 100)
-                  : Math.floor(price)}{" "}
+                  ? price - (price * discountPercentage) / 100
+                  : price}{" "}
                 ج.م
               </p>
             </button>
@@ -184,7 +181,8 @@ export default function BodyDetails({
           </label>
 
           <textarea
-            ref={notesRef}
+            value={note}
+            onChange={(e)=>setNote(e.target.value)}
             placeholder="مثال: بدون بصل، زيادة صوص، أقل ملح..."
             rows={2}
             maxLength={200}
@@ -257,7 +255,7 @@ export default function BodyDetails({
                 </span>
 
                 <div className="bg-white/20 px-4 py-1 rounded-full font-bold">
-                  {Math.floor(finalPrice)} ج.م
+                  {finalPrice} ج.م
                 </div>
               </>
             ) : (

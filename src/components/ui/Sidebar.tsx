@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import {
   IoBagHandleOutline,
@@ -8,16 +8,12 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 
-import {
-  MdFavoriteBorder,
-  MdKeyboardDoubleArrowLeft,
-} from "react-icons/md";
+import { MdFavoriteBorder, MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 import { CgProfile } from "react-icons/cg";
 import useStore from "@/session/storeAuth";
-
-
-
+import { useCartStore } from "@/pages/user/cart/store/cart";
+import { useCartQuery } from "@/pages/user/cart/hooks/useCartQuery";
 const pages = [
   {
     id: "home",
@@ -50,6 +46,15 @@ export default function Sidebar() {
 
   const { pathname } = useLocation();
   const { token } = useStore();
+
+  const { data } = useCartQuery();
+  const { setCount, count } = useCartStore();
+
+  useEffect(() => {
+    if (!data) return;
+
+    setCount(data.data.itemCount);
+  }, [data, setCount]);
 
   const mobilePages = [
     ...pages,
@@ -93,8 +98,6 @@ export default function Sidebar() {
               showSidebar ? "justify-between" : "justify-center"
             }`}
           >
-           
-
             <button
               onClick={() => setShowSidebar(!showSidebar)}
               className={`
@@ -124,6 +127,7 @@ export default function Sidebar() {
                     rounded-2xl
                     px-4 py-3
                     transition-all duration-300
+                    relative
 
                     ${
                       active
@@ -132,13 +136,15 @@ export default function Sidebar() {
                     }
                   `}
                 >
-                  <div
-                    className={`text-2xl ${
-                      !showSidebar ? "mx-auto" : ""
-                    }`}
-                  >
+                  <div className={`text-2xl ${!showSidebar ? "mx-auto" : ""}`}>
                     {icon}
                   </div>
+
+                  {id === "cart" && count > 0 && (
+                    <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
+                      <span>{count}</span>
+                    </div>
+                  )}
 
                   {showSidebar && (
                     <span className="whitespace-nowrap font-medium">
@@ -165,11 +171,7 @@ export default function Sidebar() {
                   hover:bg-primary/10
                 `}
               >
-                <div
-                  className={`text-2xl ${
-                    !showSidebar ? "mx-auto" : ""
-                  }`}
-                >
+                <div className={`text-2xl ${!showSidebar ? "mx-auto" : ""}`}>
                   <CgProfile />
                 </div>
 
@@ -186,11 +188,7 @@ export default function Sidebar() {
                   hover:bg-primary/10
                 `}
               >
-                <div
-                  className={`text-2xl ${
-                    !showSidebar ? "mx-auto" : ""
-                  }`}
-                >
+                <div className={`text-2xl ${!showSidebar ? "mx-auto" : ""}`}>
                   <IoSettingsOutline />
                 </div>
 
@@ -260,23 +258,24 @@ export default function Sidebar() {
                 to={path}
                 className={`
                   flex flex-col items-center
+                  relative
                   gap-1
                   px-3 py-2
                   rounded-xl
                   transition-all duration-300
 
-                  ${
-                    active
-                      ? "bg-primary text-white"
-                      : "text-gray-600"
-                  }
+                  ${active ? "bg-primary text-white" : "text-gray-600"}
                 `}
               >
                 <div className="text-2xl">{icon}</div>
 
-                <span className="text-xs font-medium">
-                  {title}
-                </span>
+                {id === "cart" && count > 0 && (
+                  <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
+                    <span>{count}</span>
+                  </div>
+                )}
+
+                <span className="text-xs font-medium">{title}</span>
               </Link>
             );
           })}
