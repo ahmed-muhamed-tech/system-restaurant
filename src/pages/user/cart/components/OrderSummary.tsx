@@ -1,4 +1,4 @@
-export default function CardPrices({cartSubtotal}: {cartSubtotal: number}) {
+export default function OrderSummary({cartSubtotal}: {cartSubtotal: number}) {
   return (
     <div className="lg:w-1/3 p-4 rounded-xl mt-12 h-fit bg-white">
       <h3 className="text-xl text-gray-800">ملخص الطلب</h3>

@@ -14,17 +14,17 @@ export default function useCartItemControls({
 }: CartControlsProps) {
   const { dec } = useCartStore();
 
-  const [localQuantity, setLocalQuantity] = useState(quantity);
+  const [optimisticQuantity, setOptimisticQuantity] = useState(quantity);
 
-
+  // when server return error rerender component and return true value
   useEffect(() => {
-    setLocalQuantity(quantity);
+    setOptimisticQuantity(quantity);
   }, [quantity]);
 
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
-  const [message, setMessage] = useState(note);
-  const [isEdit, setIsEdit] = useState(false);
+  const [noteText, setNoteText] = useState(note);
+  const [isEditingNote, setIsEditingNote] = useState(false);
 
   const { mutate, isPending: isDeleting } = useDeleteCartItemMutation(id);
 
@@ -51,7 +51,7 @@ export default function useCartItemControls({
 
   const MAX_CLICKED = 5;
 
-  let pendingClicks = useRef(0);
+  const pendingClicks = useRef(0);
 
   function syncQuantityWithServer(quantity: number) {
     updateCart(
@@ -72,11 +72,11 @@ export default function useCartItemControls({
     );
   }
 
-  const handleEditNote = () => {
-    setIsEdit(false);
-    if (note === message || message.trim() === "") return;
+  const handleSaveNote = () => {
+    setIsEditingNote(false);
+    if (note === noteText || noteText.trim() === "") return;
     updateCart(
-      { note: message.trim() },
+      { note: noteText.trim(), id },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
@@ -99,14 +99,14 @@ export default function useCartItemControls({
 
     pendingClicks.current++;
 
-    const next = localQuantity + 1; // ← من localQuantity مش quantity
-    setLocalQuantity(next);
+    const next = optimisticQuantity + 1; // ← من localQuantity مش quantity
+    setOptimisticQuantity(next);
 
     syncQuantityWithServer(next);
   }
 
   function decrease() {
-    if (quantity == 1) return;
+    if (optimisticQuantity <= 1) return;
 
     if (pendingClicks.current >= MAX_CLICKED) {
       toast.warning("انتظر قليلا...");
@@ -115,19 +115,23 @@ export default function useCartItemControls({
 
     pendingClicks.current++;
 
-    const next = localQuantity - 1;
-    setLocalQuantity(next);
+    const next = optimisticQuantity - 1;
+    setOptimisticQuantity(next);
     syncQuantityWithServer(next);
   }
 
-  const handleDeleteNote = () => {
+  const handleClearNote = () => {
     updateCart(
       {
+        id,
         note: null,
       },
       {
         onSuccess: () => {
-          setMessage("")
+          setNoteText("");
+          queryClient.invalidateQueries({
+            queryKey: ["cart"],
+          });
           toast.success("تم حذف الملاحظه بنجاح");
         },
         onError: (error) => {
@@ -146,12 +150,12 @@ export default function useCartItemControls({
     setIsDeleteConfirmOpen,
     isDeleting,
     isUpdatingQuantity,
-    setMessage,
-    isEdit,
-    message,
-    setIsEdit,
-    localQuantity,
-    handleEditNote,
-    handleDeleteNote,
+    setNoteText,
+    isEditingNote,
+    noteText,
+    setIsEditingNote,
+    optimisticQuantity,
+    handleSaveNote,
+    handleClearNote,
   };
 }

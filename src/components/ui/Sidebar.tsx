@@ -13,7 +13,7 @@ import { MdFavoriteBorder, MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import useStore from "@/session/storeAuth";
 import { useCartStore } from "@/pages/user/cart/store/cart";
-import { useCartQuery } from "@/hooks/useCartQuery";
+import { useCartQuery } from "@/pages/user/cart/hooks/useCartQuery";
 const pages = [
   {
     id: "home",
