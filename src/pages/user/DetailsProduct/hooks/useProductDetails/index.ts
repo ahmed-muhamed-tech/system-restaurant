@@ -51,10 +51,10 @@ export default function useProductDetails(
 
   const priceAfterDiscount =
     hasDiscount && discountPercentage
-      ? Math.floor(selectedSize.price - (selectedSize.price * discountPercentage) / 100)
-      : Math.floor(selectedSize.price);
+      ? selectedSize.price - (selectedSize.price * discountPercentage) / 100
+      : selectedSize.price;
 
-  const finalPrice = Math.floor( (priceAfterDiscount + totalPriceAddons) * count);
+  const finalPrice = (priceAfterDiscount + totalPriceAddons) * count;
 
   return {
     setCount,

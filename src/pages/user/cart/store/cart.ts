@@ -7,6 +7,11 @@ export const useCartStore = create<CartStore>()(
     (set) => ({
       count: 0,
 
+      setCount: (newCount: number) =>
+        set(() => ({
+          count: newCount,
+        })),
+
       inc: () =>
         set((state) => ({
           count: state.count + 1,

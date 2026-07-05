@@ -4,6 +4,8 @@ import CartItemCard from "./CartItemCard";
 
 export default function CartItems({itemCount, items}: {itemCount: number, items: CardResponse[]}) {
 
+
+
   return (
     <div className="lg:w-2/3 py-8 px-4 lg:overflow-y-auto mb-22 lg:mb-0">
         {/* Head */}
@@ -29,7 +31,8 @@ export default function CartItems({itemCount, items}: {itemCount: number, items:
                 unitPrice,
                 addons,
                 id,
-                note
+                note,
+
               }: CardResponse) => (
           
                 <CartItemCard

@@ -2,7 +2,6 @@ import { api } from "@/services/api";
 
 export const fetchContentCart = async () => {
   const response = await api.get("/cart");
-  console.log(response.data)
   return response.data;
 };
 
@@ -18,10 +17,8 @@ export const updateCartItem = async ({
 }: {
   cartItemId: string;
   quantity?: number;
-  note?: string;
+  note?: string | null;
 }) => {
-  console.log(quantity);
-  console.log(note)
   const body = {
     quantity,
     note

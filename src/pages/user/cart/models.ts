@@ -1,14 +1,14 @@
-type Image = {
+type ProductImage = {
   url: string;
   id: string;
 };
 
-type MenuItems = {
+type MenuItem = {
   name: string;
-  images: Image[];
+  images: ProductImage[];
 };
 
-type Addons = {
+type Addon = {
   price: number;
   name: string;
 };
@@ -16,8 +16,8 @@ type Addons = {
 export type CardResponse = {
   quantity: number;
   totalPrice: number;
-  menuItem: MenuItems;
-  addons: Addons[];
+  menuItem: MenuItem;
+  addons: Addon[];
   id: string;
   unitPrice: number;
   note: string
@@ -26,7 +26,7 @@ export type CardResponse = {
 export type CardProductProps = {
   image: string;
   title: string;
-  addons?: Addons[];
+  addons?: Addon[];
   unitPrice: number;
   totalPrice: number;
   quantity: number;
@@ -40,11 +40,13 @@ export type CartControlsProps = {
   totalPrice: number;
   title: string;
   unitPrice: number;
-  note: string
+  note: string;
+  
 };
 
 export type CartStore = {
   count: number;
   inc: () => void;
   dec: () => void;
+  setCount: (newCount: number) => void;
 };
