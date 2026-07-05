@@ -12,7 +12,8 @@ import { MdFavoriteBorder, MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 import { CgProfile } from "react-icons/cg";
 import useStore from "@/session/storeAuth";
-import {  useCartStore } from "@/pages/user/cart/store/cart";
+import { useCartStore } from "@/pages/user/cart/store/cart";
+import { useFavoriteStore } from "@/pages/user/Favorites/store/favorite";
 const pages = [
   {
     id: "home",
@@ -42,9 +43,9 @@ const pages = [
 
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
-  
-  const {count} = useCartStore()
 
+  const { count } = useCartStore();
+  const { count: countFavorite } = useFavoriteStore();
 
   const { pathname } = useLocation();
   const { token } = useStore();
@@ -133,9 +134,15 @@ export default function Sidebar() {
                     {icon}
                   </div>
 
-                  {id === "cart" && count > 0  && (
+                  {id === "cart" && count > 0 && (
                     <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
                       <span>{count}</span>
+                    </div>
+                  )}
+
+                  {id === "favorite" && countFavorite > 0 && (
+                    <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
+                      <span>{countFavorite}</span>
                     </div>
                   )}
 
@@ -265,6 +272,12 @@ export default function Sidebar() {
                 {id === "cart" && count > 0 && (
                   <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
                     <span>{count}</span>
+                  </div>
+                )}
+
+                {id === "favorite" && countFavorite > 0 && (
+                  <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
+                    <span>{countFavorite}</span>
                   </div>
                 )}
 

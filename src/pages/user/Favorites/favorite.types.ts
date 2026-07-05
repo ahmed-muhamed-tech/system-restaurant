@@ -8,3 +8,9 @@ export type MenuItem = {
   description: string;
   rating: number;
 };
+
+export type FavoriteStore = {
+  count: number;
+  inc: () => void;
+  dec: () => void;
+};
