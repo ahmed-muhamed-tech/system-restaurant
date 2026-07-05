@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import useIsCurrentProductFavorite from "../hooks/useIsCurrentProductFavorite";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { useFavoriteStore } from "../../Favorites/store/favorite";
 
 export default function CardProduct({
   index,
@@ -32,12 +33,15 @@ export default function CardProduct({
   const isFavorite = isFavoriteProduct?.data?.isFavorite;
 
   const queryClient = useQueryClient();
+
+  const { inc} = useFavoriteStore()
   const handleFavoriteProduct = () => {
     addToFavorite(undefined, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["isFavorite", id],
         });
+        inc()
         toast.success(`تم اضافه ${name} بنجاح`);
       },
       onError: (error) => {

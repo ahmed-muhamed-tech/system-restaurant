@@ -4,6 +4,7 @@ import Confirm from "@/components/ui/Confirm";
 import type { CardProductProps } from "../models";
 import useCartItemControls from "../hooks/useCartItemControls";
 
+
 export default function CartItemCard({
   id,
   image,

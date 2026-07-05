@@ -13,6 +13,7 @@ import { MdFavoriteBorder, MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import useStore from "@/session/storeAuth";
 import { useCartStore } from "@/pages/user/cart/store/cart";
+import { useFavoriteStore } from "@/pages/user/Favorites/store/favorite";
 import { useCartQuery } from "@/pages/user/cart/hooks/useCartQuery";
 const pages = [
   {
@@ -44,6 +45,9 @@ const pages = [
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
 
+  const { count } = useCartStore();
+  const { count: countFavorite } = useFavoriteStore();
+
   const { pathname } = useLocation();
   const { token } = useStore();
 
@@ -61,7 +65,7 @@ export default function Sidebar() {
     {
       id: "profile",
       title: token ? "حسابي" : "دخول",
-      path: token ? "/profile" : "/auth/login",
+      path: token ? "/profile-user" : "/auth/login",
       icon: <CgProfile />,
     },
   ];
@@ -146,6 +150,12 @@ export default function Sidebar() {
                     </div>
                   )}
 
+                  {id === "favorite" && countFavorite > 0 && (
+                    <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
+                      <span>{countFavorite}</span>
+                    </div>
+                  )}
+
                   {showSidebar && (
                     <span className="whitespace-nowrap font-medium">
                       {title}
@@ -162,7 +172,7 @@ export default function Sidebar() {
           {token ? (
             <>
               <Link
-                to="/profile"
+                to="/profile-user"
                 className={`
                   flex items-center gap-3
                   rounded-2xl
@@ -272,6 +282,12 @@ export default function Sidebar() {
                 {id === "cart" && count > 0 && (
                   <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
                     <span>{count}</span>
+                  </div>
+                )}
+
+                {id === "favorite" && countFavorite > 0 && (
+                  <div className="absolute -top-2 -left-3 rounded-2xl text-white w-6 h-6 bg-accent flex justify-center items-center ">
+                    <span>{countFavorite}</span>
                   </div>
                 )}
 

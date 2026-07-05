@@ -1,4 +1,5 @@
 import { FaHeart, FaStar } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 type CardProps = {
   id: string;
@@ -35,16 +36,18 @@ export default function CardProduct({
         </button>
       </div>
 
-      <div className="p-5">
-        <div className="flex justify-between items-center text-xl lg:text-2xl  font-medium">
-          <h2 className="font-bold text-gray-800">{name}</h2>
-          <div className="flex items-center gap-1 bg-yellow-50 px-3 py-1 rounded-full">
-            <FaStar className="text-yellow-400" />
-            <span className="font-medium">{rating}</span>
+      <Link to={`/product/${id}`}>
+        <div className="p-5">
+          <div className="flex justify-between items-center text-xl lg:text-2xl  font-medium">
+            <h2 className="font-bold text-gray-800">{name}</h2>
+            <div className="flex items-center gap-1 bg-yellow-50 px-3 py-1 rounded-full">
+              <FaStar className="text-yellow-400" />
+              <span className="font-medium">{rating}</span>
+            </div>
           </div>
+          <p className="text-gray-500 leading-7 line-clamp-2">{description}</p>
         </div>
-        <p className="text-gray-500 leading-7 line-clamp-2">{description}</p>
-      </div>
+      </Link>
     </div>
   );
 }
