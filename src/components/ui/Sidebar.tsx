@@ -45,14 +45,13 @@ const pages = [
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
 
-  const { count } = useCartStore();
+  const { count, setCount } = useCartStore();
   const { count: countFavorite } = useFavoriteStore();
 
   const { pathname } = useLocation();
   const { token } = useStore();
 
   const { data } = useCartQuery();
-  const { setCount, count } = useCartStore();
 
   useEffect(() => {
     if (!data) return;
