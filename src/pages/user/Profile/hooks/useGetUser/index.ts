@@ -3,7 +3,7 @@ import { getUser } from "../../api";
 
 export default function useGetUser(){
     return useQuery({
-        queryKey: ["user"],
+        queryKey: ["profile"],
         queryFn: getUser,
     })
 }

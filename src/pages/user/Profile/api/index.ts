@@ -12,7 +12,6 @@ export async function updateDataUser({
   phonePrimary,
   phoneSecondary,
   address,
-  
 }: UserInfo) {
   const body = {
     firstName,
@@ -23,4 +22,27 @@ export async function updateDataUser({
   };
   const response = await api.patch("/users/me", body);
   return response.data;
+}
+
+export async function updateAvatar(file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await api.post("/users/me/avatar", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+}
+
+export async function removeAvatar(id: string) {
+  const response = api.delete("/users/me/avatar", {
+    data: {
+      publicId: id,
+    },
+  });
+
+  return response;
 }

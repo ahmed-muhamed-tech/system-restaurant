@@ -3,7 +3,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import Confirm from "@/components/ui/Confirm";
 import type { CardProductProps } from "../models";
 import useCartItemControls from "../hooks/useCartItemControls";
-import { useRef, useState } from "react";
+
 
 export default function CartItemCard({
   id,
