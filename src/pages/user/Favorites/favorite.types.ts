@@ -13,4 +13,5 @@ export type FavoriteStore = {
   count: number;
   inc: () => void;
   dec: () => void;
+  setCount: (Num: number) => void 
 };
