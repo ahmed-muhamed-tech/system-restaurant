@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { FavoriteStore } from "../favorite.types";
 
-
 export const useFavoriteStore = create<FavoriteStore>()(
   persist(
     (set) => ({
@@ -11,6 +10,11 @@ export const useFavoriteStore = create<FavoriteStore>()(
       inc: () =>
         set((state) => ({
           count: state.count + 1,
+        })),
+
+      setCount: (newCount: number) =>
+        set(() => ({
+          count: newCount,
         })),
 
       dec: () =>

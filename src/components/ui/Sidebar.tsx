@@ -15,6 +15,8 @@ import useStore from "@/session/storeAuth";
 import { useCartStore } from "@/pages/user/cart/store/cart";
 import { useFavoriteStore } from "@/pages/user/Favorites/store/favorite";
 import { useCartQuery } from "@/pages/user/cart/hooks/useCartQuery";
+
+import useFavoritesProducts from "@/pages/user/Favorites/hooks/useFavoritesProducts";
 const pages = [
   {
     id: "home",
@@ -46,18 +48,26 @@ export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
 
   const { count, setCount } = useCartStore();
-  const { count: countFavorite } = useFavoriteStore();
+  const { count: countFavorite, setCount: setCountFavorite } =
+    useFavoriteStore();
 
   const { pathname } = useLocation();
   const { token } = useStore();
 
   const { data } = useCartQuery();
+  const { data: dataFavorite } = useFavoritesProducts();
 
   useEffect(() => {
     if (!data) return;
 
     setCount(data.data.itemCount);
   }, [data, setCount]);
+
+  useEffect(() => {
+    if (!dataFavorite) return;
+
+    setCountFavorite(dataFavorite.meta.total);
+  }, [dataFavorite]);
 
   const mobilePages = [
     ...pages,
