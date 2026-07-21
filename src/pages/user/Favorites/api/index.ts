@@ -2,7 +2,6 @@ import { api } from "@/services/api";
 
 export async function fetchFavoritesProducts(){
     const response = await api.get(`/favorites`)
-    console.log(response.data)
     return response.data
 }
 

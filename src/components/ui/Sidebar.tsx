@@ -74,7 +74,7 @@ export default function Sidebar() {
     {
       id: "profile",
       title: token ? "حسابي" : "دخول",
-      path: token ? "/profile-user" : "/auth/login",
+      path: token ? "/profile-user" : "/auth",
       icon: <CgProfile />,
     },
   ];
@@ -231,7 +231,7 @@ export default function Sidebar() {
               </Link>
 
               <Link
-                to="/auth/login"
+                to="/auth"
                 className="
                   border
                   border-primary

@@ -1,4 +1,5 @@
-import type { UserInfo } from "@/utils/types";
+
+import type { UserInfo } from "@/utils/types/auth.types";
 import z from "zod";
 
 export const loginSchema = z.object({

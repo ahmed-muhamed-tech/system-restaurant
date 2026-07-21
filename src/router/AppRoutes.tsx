@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import Cart from "@/pages/user/cart";
 import Favorites from "@/pages/user/Favorites";
 import Profile from "@/pages/user/Profile";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -23,26 +24,37 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "product/:productId", element: <DetailsProduct /> },
-      { path: "cart", element: <Cart /> },
-      { path: "product/:productId", element: <DetailsProduct /> },
+      {
+        path: "cart",
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "favorites",
-        element: <Favorites />,
+        element: (
+          <ProtectedRoute>
+            <Favorites />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "profile-user",
-        element: <Profile/>
-      }
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {
     path: "/auth",
     element: <AuthLayout />,
     children: [
-      {
-        index: true,
-        element: <Register />,
-      },
+    
       {
         path: "register",
         element: <Register />,
@@ -52,7 +64,8 @@ const router = createBrowserRouter([
         element: <Verify />,
       },
       {
-        path: "login",
+ 
+        index: true,
         element: <Login />,
       },
       {

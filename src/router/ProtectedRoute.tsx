@@ -12,7 +12,7 @@ export default function ProtectedRoute({
   const { token, userInfo } = useStore()
 
   if (!token || !userInfo)
-    return <Navigate to="/auth/login" replace />
+    return <Navigate to="/auth/" replace />
 
   if (allowedRoles && !allowedRoles.includes(userInfo.role))
     return <Navigate to="/" replace />

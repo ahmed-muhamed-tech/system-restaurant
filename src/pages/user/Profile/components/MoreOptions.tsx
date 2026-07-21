@@ -1,10 +1,18 @@
 import { IoLogOutOutline } from "react-icons/io5";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 export default function MoreOptions() {
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("cart-storage")
+    localStorage.removeItem("favorite-storage")
+    navigate("/auth")
+  }
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 py-3 px-3 flex flex-col gap-1">
-      <div className="p-3 flex items-center justify-between text-gray-700 rounded-2xl hover:bg-gray-50 transition-all duration-200 cursor-pointer">
+      <div onClick={handleLogout} className="p-3 flex items-center justify-between text-gray-700 rounded-2xl hover:bg-gray-50 transition-all duration-200 cursor-pointer">
         <div className="flex items-center gap-3">
           <div className="bg-red-50 text-red-500 w-10 h-10 rounded-xl flex items-center justify-center text-lg">
             <IoLogOutOutline />

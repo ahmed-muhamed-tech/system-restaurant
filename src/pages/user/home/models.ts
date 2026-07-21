@@ -14,7 +14,16 @@ type Addons = {
   name: string;
   price: number;
   updatedAt: string;
-}
+};
+
+type Size = {
+  id: string;
+  isAvailable: boolean;
+  label: string;
+  menuItemId: string;
+  price: number;
+  slug: string;
+};
 
 export type MenuItem = {
   id: string;
@@ -22,7 +31,7 @@ export type MenuItem = {
   description: string;
   price: number;
   category: string;
-  categoryId:string;
+  categoryId: string;
   isAvailable: boolean;
   discountPercentage: number;
   hasDiscount: boolean;
@@ -30,8 +39,8 @@ export type MenuItem = {
   createdAt: string;
   updatedAt: string;
   images: MenuItemImage[];
-  size: string[];
-  addons: Addons[]
+  sizes: Size[];
+  addons: Addons[];
 };
 
 type PaginationMeta = {
@@ -46,11 +55,11 @@ export type MenuResponse = {
   meta: PaginationMeta;
 };
 
-export type MenuQeury = {
+export type MenuQuery = {
   data: MenuResponse | undefined;
   isError: boolean;
   isPending: boolean;
-  error: any;
+  error: Error | null;
 };
 
 export type CategoryResponse = {
@@ -62,7 +71,6 @@ export type CategoryResponse = {
   createdAt: string;
   updatedAt: string;
 };
-
 
 export type ButtonCategoryProps = {
   label: string;
@@ -77,11 +85,12 @@ export type CardProductProps = {
   isAvailable: boolean;
   images: MenuItemImage[];
   id: string;
-
+  rating: number;
+  hasDiscount: boolean;
+  discountPercentage: number
 };
 
 export type CategoryFilterProps = {
-  setCategory: any;
+  setCategory: (slug: string) => void;
   category: string;
 };
-

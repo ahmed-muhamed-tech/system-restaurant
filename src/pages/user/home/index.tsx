@@ -6,7 +6,7 @@ import Search from "@/pages/user/home/components/Search";
 
 export default function Home() {
   return (
-    <div className="py-4">
+    <div className="p-2 lg:p-4">
       {/* search */}
       <Search />
 

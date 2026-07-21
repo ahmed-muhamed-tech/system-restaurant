@@ -23,7 +23,7 @@ export const useMe = () => {
       setUserInfo(null);
       return;
     }
-  }, [data, isSuccess, isError, isLoading]);
+  }, [data, isError]);
 
   return { data, isSuccess, isLoading, isError };
 };
