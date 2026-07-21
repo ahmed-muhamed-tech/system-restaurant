@@ -22,6 +22,9 @@ export default function CardProduct({
   images,
   isAvailable,
   id,
+  rating,
+  hasDiscount,
+  discountPercentage,
 }: CardProductProps) {
   const { isPending: isLoadingAddToFavorite, mutate: addToFavorite } =
     useAddProductToFavorite(id);
@@ -34,14 +37,14 @@ export default function CardProduct({
 
   const queryClient = useQueryClient();
 
-  const { inc} = useFavoriteStore()
+  const { inc } = useFavoriteStore();
   const handleFavoriteProduct = () => {
     addToFavorite(undefined, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["isFavorite", id],
         });
-        inc()
+        inc();
         toast.success(`تم اضافه ${name} بنجاح`);
       },
       onError: (error) => {
@@ -50,6 +53,8 @@ export default function CardProduct({
       },
     });
   };
+
+  if (isErrorFavorite) return toast.error("فشل اضافه المنتج الي المفضله");
 
   return (
     <motion.div
@@ -70,16 +75,12 @@ export default function CardProduct({
           <p className="mt-2 text-sm md:text-sm text-muted">{description}</p>
           <div className="mt-2 flex items-center gap-2 text-lg lg:text-xl">
             <FaStar className="text-primary" />
-            <span className="text-muted">4.7</span>
+            <span className="text-muted">{rating}</span>
           </div>
         </Link>
 
         <div className="flex mt-6  justify-between items-center text-sm lg:text-xl">
           <div className="flex items-center gap-2 text-xl lg:text-3xl">
-            <button className="w-8 h-8  flex justify-center items-center rounded-md lg:rounded-2xl bg-primary text-white hover:rotate-180 transition-all duration-300">
-              +
-            </button>
-
             {!isLoadingFavorite && (
               <button
                 onClick={handleFavoriteProduct}
@@ -91,8 +92,18 @@ export default function CardProduct({
             )}
           </div>
           <div className="flex gap-1 items-end">
-            <span className="text-lg line-through text-primary">300</span>
-            <div className="text-muted text-xl">{price} ج.م</div>
+            {hasDiscount ? (
+              <>
+                <span className="text-lg line-through text-primary">
+                  {price}
+                </span>
+                <div className="text-muted text-xl">
+                  {price - price * (discountPercentage / 100)} ج.م
+                </div>
+              </>
+            ) : (
+              <div className="text-muted text-xl">{price} ج.م</div>
+            )}
           </div>
         </div>
       </div>

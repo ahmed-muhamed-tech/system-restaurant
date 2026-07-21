@@ -1,7 +1,11 @@
 import { LuShoppingCart } from "react-icons/lu";
 import { MdFavoriteBorder } from "react-icons/md";
+import { useFavoriteStore } from "../../Favorites/store/favorite";
 
 export default function CountOrdersAndFavorites() {
+
+  
+  const {count: countItemsInFavorite} = useFavoriteStore()
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="p-5 rounded-3xl flex items-center gap-4 bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all">
@@ -19,7 +23,7 @@ export default function CountOrdersAndFavorites() {
             <MdFavoriteBorder />
           </div>
           <div>
-            <h3 className="text-2xl font-bold text-gray-800">43</h3>
+            <h3 className="text-2xl font-bold text-gray-800">{countItemsInFavorite}</h3>
             <h3 className="text-gray-400 text-sm">المفضله</h3>
           </div>
         </div>

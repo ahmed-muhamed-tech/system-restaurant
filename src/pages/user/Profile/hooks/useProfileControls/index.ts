@@ -122,6 +122,7 @@ export default function useProfileControls() {
   };
 
   const handleRemoveAvatar = () => {
+    if (!userData?.data?.id) return;
     const { id } = userData.data;
     removeAvatar(id, {
       onSuccess: () => {

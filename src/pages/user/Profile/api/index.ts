@@ -38,7 +38,7 @@ export async function updateAvatar(file: File) {
 }
 
 export async function removeAvatar(id: string) {
-  const response = api.delete("/users/me/avatar", {
+  const response = await api.delete("/users/me/avatar", {
     data: {
       publicId: id,
     },

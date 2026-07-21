@@ -30,7 +30,7 @@ export default function useRegisterForm() {
             message ===
             "Registration successful. Please check your email for the verification code."
           ) {
-            console.log(data)
+        
             localStorage.setItem("email", email);
             form.reset();
             toast.success("تحقق من الايميل");

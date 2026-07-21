@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateCartItem } from "../../api";
+import type { CartItem, CartResponse } from "../../models";
 
 export default function useUpdateCartItemMutation(cartItemId: string) {
   const queryClient = useQueryClient();
@@ -20,12 +21,10 @@ export default function useUpdateCartItemMutation(cartItemId: string) {
 
       const previosContentCart = queryClient.getQueryData(["cart"]);
 
-    
-
-      queryClient.setQueryData(["cart"], (old: any) => {
+      queryClient.setQueryData(["cart"], (old: CartResponse) => {
         if (!old) return old;
 
-        const items = old.data.items.map((item: any) => {
+        const items = old.data.items.map((item: CartItem) => {
           if (item.id !== updateCart.id) return item;
 
           const newQuantity = updateCart.quantity ?? item.quantity;
@@ -34,12 +33,11 @@ export default function useUpdateCartItemMutation(cartItemId: string) {
             ...item,
             quantity: newQuantity,
             totalPrice: newQuantity * item.unitPrice,
-            
           };
         });
 
         const subtotal = items.reduce(
-          (sum: number, item: any) => sum + item.totalPrice,
+          (sum: number, item: CartItem) => sum + item.totalPrice,
           0,
         );
 
