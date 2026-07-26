@@ -1,4 +1,4 @@
-import type { verifyType } from "@/pages/auth/verify/models";
+import type { verifyType } from "@/pages/auth/verify/modules";
 import { useMutation } from "@tanstack/react-query";
 import { verifyEmailUser } from "@/pages/auth/verify/api";
 

@@ -16,6 +16,9 @@ import Cart from "@/pages/user/cart";
 import Favorites from "@/pages/user/Favorites";
 import Profile from "@/pages/user/Profile";
 import ProtectedRoute from "./ProtectedRoute";
+import AdminLayout from "@/layouts/AdminLayout";
+import Products from "@/pages/admin/Products";
+import Dashboard from "@/pages/admin/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -54,7 +57,6 @@ const router = createBrowserRouter([
     path: "/auth",
     element: <AuthLayout />,
     children: [
-    
       {
         path: "register",
         element: <Register />,
@@ -64,7 +66,6 @@ const router = createBrowserRouter([
         element: <Verify />,
       },
       {
- 
         index: true,
         element: <Login />,
       },
@@ -79,6 +80,20 @@ const router = createBrowserRouter([
       {
         path: "resend-code",
         element: <ResendCode />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "products",
+        element: <Products />,
       },
     ],
   },
