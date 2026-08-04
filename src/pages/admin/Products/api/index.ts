@@ -34,3 +34,8 @@ export const getCategories = async () => {
   const response = await api.get("/categories");
   return response.data;
 };
+
+export const deleteCurrentMenu = async (id: string) => {
+  const response = await api.delete(`/menu/${id}`);
+  return response.data;
+};
