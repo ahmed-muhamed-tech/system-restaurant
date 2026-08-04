@@ -1,12 +1,28 @@
-import { IoIosSearch, IoMdNotificationsOutline } from "react-icons/io";
+import {
+  IoIosSearch,
+  IoMdMenu,
+  IoMdNotificationsOutline,
+} from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 
-export default function Navbar() {
+export default function Navbar({
+  setCloseSidebar,
+  closeSidebar,
+}: {
+  setCloseSidebar: (value: boolean) => void;
+  closeSidebar: boolean;
+}) {
   return (
     <div className="flex justify-between items-center bg-white px-12 py-4">
       {/* logo */}
-      <div className="text-2xl text-white bg-primary py-2 px-4 rounded-2xl">
-        <h3 >بازوكا</h3>
+      <div className="flex gap-4 items-center ">
+        <IoMdMenu
+          className="text-4xl cursor-pointer hidden lg:block"
+          onClick={() => setCloseSidebar(!closeSidebar)}
+        />
+        <div className="text-2xl text-white bg-primary py-2 px-4 rounded-2xl">
+          <h3>بازوكا</h3>
+        </div>
       </div>
 
       {/* Search */}
@@ -23,19 +39,16 @@ export default function Navbar() {
       {/* Account & notification */}
       <div className="flex items-center gap-5">
         <div className="relative text-2xl rounded-full w-10 h-10 bg-gray-200 flex justify-center items-center text-gray-800">
-            <div className="w-2 h-2 rounded-full bg-red-600 absolute top-2 left-3">
-               
-            </div>
+          <div className="w-2 h-2 rounded-full bg-red-600 absolute top-2 left-3"></div>
           <IoMdNotificationsOutline />
         </div>
 
-        <div className="flex items-center gap-1">
-          <FaUserCircle className="text-4xl text-primary " />
-
+        <div className="flex items-center gap-1 text-4xl">
           <div>
-            <h4 className="text-sm">محمد</h4>
-            <h5 className="text-xs">مدير الفرع الرئيسي</h5>
+            <FaUserCircle className=" text-primary " />
           </div>
+
+          <h4 className="text-2xl">محمد</h4>
         </div>
       </div>
     </div>
