@@ -1,7 +1,7 @@
 import { IoIosStar, IoIosStarHalf } from "react-icons/io";
 import type { CurrentProduct } from "@/pages/user/DetailsProduct/models";
 import useProductDetails from "../hooks/useProductDetails";
-import {  useState } from "react";
+import { useState } from "react";
 import useAddProduct from "../hooks/useAddProduct";
 
 export default function BodyDetails({
@@ -54,7 +54,7 @@ export default function BodyDetails({
     });
     setSelectedAddons([]);
     if (note !== null) {
-      setNote("")
+      setNote("");
     }
   }
 
@@ -66,6 +66,8 @@ export default function BodyDetails({
     note: note.trim() || "",
     reset,
   });
+
+  console.log(sizes.length);
 
   return (
     <div className="h-full flex flex-col gap-11 justify-between">
@@ -107,14 +109,16 @@ export default function BodyDetails({
         <p className="text-gray-600 leading-8 text-lg mt-4">{description}</p>
 
         {/* Sizes */}
-        <h3 className="text-muted mt-6 text-xl">الحجم</h3>
-        <div className="grid grid-cols-3 gap-3 mt-4">
-          {sizes.map(({ label, price, id, isAvailable }) => (
-            <button
-              key={id}
-              onClick={() => handleAddSizes(id, label, price)}
-              disabled={!isAvailable}
-              className={`
+        {sizes.length > 1 && (
+          <>
+            <h3 className="text-muted mt-6 text-xl">الحجم</h3>
+            <div className="grid grid-cols-3 gap-3 mt-4">
+              {sizes.map(({ label, price, id, isAvailable }) => (
+                <button
+                  key={id}
+                  onClick={() => handleAddSizes(id, label, price)}
+                  disabled={!isAvailable}
+                  className={`
                 rounded-2xl py-3
                 border transition-all duration-300
                 ${
@@ -125,52 +129,60 @@ export default function BodyDetails({
                       : "bg-white border-gray-200 hover:border-primary"
                 }
               `}
-            >
-              <h4 className="font-medium">{label}</h4>
-              <p className="text-sm">
-                {hasDiscount && discountPercentage
-                  ? price - (price * discountPercentage) / 100
-                  : price}{" "}
-                ج.م
-              </p>
-            </button>
-          ))}
-        </div>
+                >
+                  <h4 className="font-medium">{label}</h4>
+                  <p className="text-sm">
+                    {hasDiscount && discountPercentage
+                      ? price - (price * discountPercentage) / 100
+                      : price}{" "}
+                    ج.م
+                  </p>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Addons */}
-        <h3 className="text-muted text-xl mt-8 mb-4">الإضافات</h3>
-        <div className="flex flex-col gap-3">
-          {addons?.map(({ name, price, id }) => (
-            <label
-              key={id}
-              htmlFor={id}
-              className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-2xl px-4 py-4 cursor-pointer hover:border-primary transition-all duration-300"
-            >
-              <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  id={id}
-                  checked={
-                    selectedAddons.find((addon) => addon.id === id)
-                      ? true
-                      : false
-                  }
-                  onChange={(e) => {
-                    handleCheckedAddons(id, e.target.checked, name, price);
-                  }}
-                  className="w-5 h-5 accent-primary"
-                />
+        {addons.length >= 1 && (
+          <>
+            <h3 className="text-muted text-xl mt-8 mb-4">الإضافات</h3>
+            <div className="flex flex-col gap-3">
+              {addons?.map(({ name, price, id }) => (
+                <label
+                  key={id}
+                  htmlFor={id}
+                  className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-2xl px-4 py-4 cursor-pointer hover:border-primary transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id={id}
+                      checked={
+                        selectedAddons.find((addon) => addon.id === id)
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        handleCheckedAddons(id, e.target.checked, name, price);
+                      }}
+                      className="w-5 h-5 accent-primary"
+                    />
 
-                <div>
-                  <h4 className="text-gray-800 font-medium">{name}</h4>
-                  <p className="text-sm text-muted">إضافة اختيارية</p>
-                </div>
-              </div>
+                    <div>
+                      <h4 className="text-gray-800 font-medium">{name}</h4>
+                      <p className="text-sm text-muted">إضافة اختيارية</p>
+                    </div>
+                  </div>
 
-              <span className="text-primary font-semibold">+{price} ج.م</span>
-            </label>
-          ))}
-        </div>
+                  <span className="text-primary font-semibold">
+                    +{price} ج.م
+                  </span>
+                </label>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Button count product & Button add to cart */}
@@ -182,7 +194,7 @@ export default function BodyDetails({
 
           <textarea
             value={note}
-            onChange={(e)=>setNote(e.target.value)}
+            onChange={(e) => setNote(e.target.value)}
             placeholder="مثال: بدون بصل، زيادة صوص، أقل ملح..."
             rows={2}
             maxLength={200}

@@ -1,4 +1,3 @@
-
 import Memberships from "@/pages/user/home/components/Memberships";
 import Offers from "@/pages/user/home/components/Offers";
 import ProductsContainer from "@/pages/user/home/components/ProductsContainer";
