@@ -49,7 +49,7 @@ export default function Products({ category }: { category: string }) {
               <CardProduct
               hasDiscount={hasDiscount}
               discountPercentage={discountPercentage}
-                price={sizes[0].price}
+                price={sizes[0]?.price}
                 rating={rating}
                 key={id}
                 id={id}
