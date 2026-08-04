@@ -67,8 +67,6 @@ export default function BodyDetails({
     reset,
   });
 
-  console.log(sizes.length);
-
   return (
     <div className="h-full flex flex-col gap-11 justify-between">
       <div>
